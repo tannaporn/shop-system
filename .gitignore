@@ -1,0 +1,29 @@
+# ── Node / Next.js ──────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── .NET ────────────────────────────────────────────────────────────────────
+bin/
+debug/
+obj/
+*.user
+*.suo
+.vs/
+*.csproj.user
+appsettings.Development.json
+
+# ── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Misc ────────────────────────────────────────────────────────────────────
+*.log

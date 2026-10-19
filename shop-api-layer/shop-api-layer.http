@@ -1,0 +1,68 @@
+@shop_api_layer_HostAddress = http://localhost:5257
+
+@loginUsername = tannaporn.ra.58@ubu.ac.th
+@loginPassword = local-test-only-2026!
+@accessToken = paste-data.accessToken-here
+
+### Development only: configure DevelopmentLogin credentials before starting the API.
+POST {{shop_api_layer_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{loginUsername}}",
+  "password": "{{loginPassword}}"
+}
+
+###
+GET {{shop_api_layer_HostAddress}}/api/TestConnection/merchant-settings
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Queue: create (status: 0 Waiting, 1 Seated, 2 Skipped, 3 Cancelled, 4 Completed)
+POST {{shop_api_layer_HostAddress}}/api/QueueEntries
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "merchantId": "11111111-1111-1111-1111-111111111111",
+  "queueNumber": "A001",
+  "customerName": "Test customer",
+  "phoneNumber": "0812345678",
+  "partySize": 2,
+  "tableTypeCapacity": 4,
+  "status": 0,
+  "skipCount": 0,
+  "isRetry": false
+}
+
+### Paste data.id returned by create here
+@queueEntryId = 22222222-2222-2222-2222-222222222222
+
+### Queue: list (optional merchantId filter)
+GET {{shop_api_layer_HostAddress}}/api/QueueEntries?merchantId=11111111-1111-1111-1111-111111111111
+Authorization: Bearer {{accessToken}}
+
+### Queue: get by id
+GET {{shop_api_layer_HostAddress}}/api/QueueEntries/{{queueEntryId}}
+Authorization: Bearer {{accessToken}}
+
+### Queue: replace editable fields
+PUT {{shop_api_layer_HostAddress}}/api/QueueEntries/{{queueEntryId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "merchantId": "11111111-1111-1111-1111-111111111111",
+  "queueNumber": "A001",
+  "customerName": "Updated customer",
+  "phoneNumber": "0812345678",
+  "partySize": 2,
+  "tableTypeCapacity": 4,
+  "status": 1,
+  "skipCount": 0,
+  "isRetry": false
+}
+
+### Queue: permanently delete
+DELETE {{shop_api_layer_HostAddress}}/api/QueueEntries/{{queueEntryId}}
+Authorization: Bearer {{accessToken}}
